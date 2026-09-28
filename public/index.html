@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sonde</title>
+<link rel="stylesheet" href="/css/styles.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+<!-- Lets a browser install Sonde as a standalone window, without the .app bundle. -->
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#1b1c1f">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">◈</span> Sonde</div>
+  <div class="topbar-spacer"></div>
+  <div class="env-picker">
+    <select id="env-select" title="Active environment"></select>
+    <button class="icon-btn" id="env-manage" title="Edit the active environment">⚙</button>
+  </div>
+  <button class="icon-btn" id="toggle-theme" title="Toggle theme">◐</button>
+  <span class="save-state" id="save-state"></span>
+</header>
+
+<main class="layout">
+  <!-- ---------------------------------------------------------------- -->
+  <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-tabs">
+      <button class="side-tab is-active" data-side="collections">Collections</button>
+      <button class="side-tab" data-side="environments">Environments</button>
+      <button class="side-tab" data-side="history">History</button>
+    </nav>
+
+    <div class="sidebar-toolbar">
+      <input type="search" id="sidebar-filter" placeholder="Filter…" autocomplete="off">
+      <button class="btn btn-ghost" id="sidebar-new" title="New">＋</button>
+      <button class="btn btn-ghost" id="sidebar-more" title="Import / Export">⋯</button>
+    </div>
+
+    <div class="sidebar-body" id="sidebar-body"></div>
+  </aside>
+
+  <div class="resizer" id="resizer-sidebar"></div>
+
+  <!-- ---------------------------------------------------------------- -->
+  <section class="workbench">
+    <div class="tabstrip" id="tabstrip"></div>
+
+    <div class="pane-empty" id="pane-empty" hidden>
+      <div class="empty-art">◈</div>
+      <h2>No request open</h2>
+      <p>Create a request, or pick one from a collection.</p>
+      <button class="btn btn-primary" id="empty-new">New request</button>
+    </div>
+
+    <div class="editor" id="editor">
+      <!-- URL bar -->
+      <div class="urlbar">
+        <select id="method" class="method-select"></select>
+        <div class="url-input-wrap">
+          <!-- Painted behind the input, mirroring its text so {{variables}} can
+               get a coloured chip. The input itself stays a real input. -->
+          <div id="url-highlight" class="url-highlight" aria-hidden="true"></div>
+          <input id="url" type="text" spellcheck="false" autocomplete="off"
+                 placeholder="https://api.example.com/v1/users">
+          <div id="url-preview" class="url-preview" hidden></div>
+        </div>
+        <button class="btn btn-primary" id="send">Send</button>
+        <button class="btn" id="save-request" title="Save (⌘S)">Save</button>
+        <button class="icon-btn" id="code-gen" title="Generate code">&lt;/&gt;</button>
+      </div>
+
+      <!-- Request editor -->
+      <div class="request-pane" id="request-pane">
+        <nav class="subtabs" id="request-subtabs">
+          <button class="subtab is-active" data-req="params">Params<span class="count" data-count="params"></span></button>
+          <button class="subtab" data-req="auth">Auth<span class="count" data-count="auth"></span></button>
+          <button class="subtab" data-req="headers">Headers<span class="count" data-count="headers"></span></button>
+          <button class="subtab" data-req="body">Body<span class="count" data-count="body"></span></button>
+          <button class="subtab" data-req="scripts">Scripts<span class="count" data-count="scripts"></span></button>
+          <button class="subtab" data-req="settings">Settings</button>
+        </nav>
+        <div class="subtab-body" id="request-body"></div>
+      </div>
+
+      <div class="resizer resizer-h" id="resizer-response"></div>
+
+      <!-- Response -->
+      <div class="response-pane" id="response-pane">
+        <div class="response-head">
+          <nav class="subtabs" id="response-subtabs">
+            <button class="subtab is-active" data-res="body">Body</button>
+            <button class="subtab" data-res="headers">Headers<span class="count" data-count="res-headers"></span></button>
+            <button class="subtab" data-res="tests">Tests<span class="count" data-count="res-tests"></span></button>
+            <button class="subtab" data-res="timing">Timing</button>
+            <button class="subtab" data-res="console">Console<span class="count" data-count="res-console"></span></button>
+          </nav>
+          <div class="response-meta" id="response-meta"></div>
+        </div>
+        <div class="subtab-body" id="response-body"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Modal host -->
+<div class="modal-backdrop" id="modal-backdrop" hidden>
+  <div class="modal" id="modal" role="dialog" aria-modal="true">
+    <div class="modal-head"><h3 id="modal-title"></h3><button class="icon-btn" id="modal-close">✕</button></div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-foot" id="modal-foot"></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script type="module" src="/js/main.js"></script>
+</body>
+</html>

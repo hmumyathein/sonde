@@ -1,0 +1,21 @@
+{
+  "name": "sonde",
+  "version": "1.0.0",
+  "description": "Sonde \u2014 a local-first API client. Request builder, collections, environments, scripting and tests.",
+  "type": "module",
+  "bin": {
+    "sonde": "server.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "build:app": "node scripts/make-app.mjs",
+    "icons": "node scripts/make-icons.mjs",
+    "app": "node server.js --app"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "private": true
+}
